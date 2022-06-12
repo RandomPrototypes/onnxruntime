@@ -1,0 +1,5 @@
+onnxruntime-cpu (1.11-0ppa0) focal; urgency=low
+
+  * Initial upload!
+
+ -- Delmotte Arnaud <delfare1-randomprototypes@yahoo.com>  Mon, 13 Jun 2022 01:22:38 +0900

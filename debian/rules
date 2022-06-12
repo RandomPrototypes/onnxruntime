@@ -1,0 +1,30 @@
+#!/usr/bin/make -f
+
+BUILDDIR = build/Linux/Release/
+
+# secondly called by launchpad
+build:
+	./build.sh --config Release --build_shared_lib --skip_tests
+	#mkdir $(BUILDDIR);
+	#cd $(BUILDDIR); cmake -DCMAKE_INSTALL_PREFIX=../debian/tmp/usr ..
+	#make -C $(BUILDDIR)
+
+# thirdly called by launchpad
+binary: binary-indep binary-arch
+
+binary-indep:
+    # nothing to be done
+
+binary-arch:
+	cd $(BUILDDIR); make DESTDIR=../debian/tmp/usr install
+	#cd $(BUILDDIR); cmake -P cmake_install.cmake
+	mkdir debian/tmp/DEBIAN
+	dpkg-gencontrol -ponnxruntime-cpu
+	dpkg --build debian/tmp ..
+
+# firstly called by launchpad
+clean:
+	rm -f build
+	rm -rf $(BUILDDIR)
+
+.PHONY: binary binary-arch binary-indep clean
